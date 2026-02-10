@@ -1,0 +1,16 @@
+.venv
+__pycache__
+*.pyc
+.git
+.gitignore
+README.md
+.env
+.env.local
+node_modules
+.next
+build
+dist
+.DS_Store
+*.log
+.idea
+.vscode

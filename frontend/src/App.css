@@ -1,0 +1,147 @@
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #fafafa;
+}
+
+.app-header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 30px 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.header-content {
+  max-width: 1200px;
+  margin: 0 auto 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header-content h1 {
+  font-size: 2.5em;
+  margin-bottom: 5px;
+  font-weight: 600;
+}
+
+.header-content p {
+  font-size: 1.1em;
+  opacity: 0.95;
+  margin: 0;
+}
+
+.api-status {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 20px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  border: 2px solid white;
+  font-weight: 500;
+}
+
+.status-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.app-nav {
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.nav-button {
+  padding: 12px 24px;
+  background-color: rgba(255, 255, 255, 0.15);
+  color: white;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  font-size: 1em;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 500;
+}
+
+.nav-button:hover {
+  background-color: rgba(255, 255, 255, 0.25);
+  transform: translateY(-2px);
+}
+
+.nav-button.active {
+  background-color: white;
+  color: #667eea;
+  border-color: white;
+}
+
+.app-main {
+  flex: 1;
+  max-width: 1200px;
+  margin: 40px auto;
+  width: 100%;
+  padding: 0 20px;
+}
+
+.app-footer {
+  background-color: #333;
+  color: white;
+  text-align: center;
+  padding: 30px 20px;
+  margin-top: 60px;
+  border-top: 1px solid #555;
+}
+
+.app-footer p {
+  margin: 8px 0;
+  font-size: 0.95em;
+  opacity: 0.9;
+}
+
+.app-footer p:first-child {
+  font-weight: 500;
+}
+
+@media (max-width: 768px) {
+  .header-content {
+    flex-direction: column;
+    text-align: center;
+    gap: 15px;
+  }
+
+  .header-content h1 {
+    font-size: 1.8em;
+  }
+
+  .app-nav {
+    justify-content: center;
+  }
+
+  .app-main {
+    margin: 30px auto;
+  }
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}

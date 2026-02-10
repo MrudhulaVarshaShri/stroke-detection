@@ -1,0 +1,218 @@
+.prediction-history-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0;
+}
+
+.history-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 2px solid #e0e0e0;
+}
+
+.history-header h2 {
+  font-size: 1.8em;
+  color: #333;
+  margin: 0;
+  font-weight: 600;
+}
+
+.prediction-count {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 0.95em;
+}
+
+.predictions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 20px;
+}
+
+.prediction-card {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  border-left: 4px solid #667eea;
+  position: relative;
+}
+
+.prediction-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 15px;
+  gap: 10px;
+}
+
+.card-timestamp {
+  font-size: 0.85em;
+  color: #999;
+  flex: 1;
+}
+
+.risk-badge {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 16px;
+  font-weight: 600;
+  font-size: 0.85em;
+  white-space: nowrap;
+}
+
+.risk-badge.High {
+  background-color: #ffebee;
+  color: #c62828;
+  border: 2px solid #ef5350;
+}
+
+.risk-badge.Medium {
+  background-color: #fff3e0;
+  color: #e65100;
+  border: 2px solid #fb8c00;
+}
+
+.risk-badge.Low {
+  background-color: #e8f5e9;
+  color: #2e7d32;
+  border: 2px solid #66bb6a;
+}
+
+.card-content {
+  margin-bottom: 15px;
+}
+
+.data-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid #f5f5f5;
+  font-size: 0.9em;
+}
+
+.data-row:last-child {
+  border-bottom: none;
+}
+
+.data-label {
+  color: #666;
+  font-weight: 500;
+}
+
+.data-value {
+  color: #333;
+  font-weight: 600;
+}
+
+.probability-info {
+  background-color: #f9f9f9;
+  padding: 12px;
+  border-radius: 8px;
+  margin-top: 15px;
+  border-left: 3px solid #667eea;
+}
+
+.probability-info p {
+  margin: 5px 0;
+  font-size: 0.85em;
+  color: #666;
+}
+
+.probability-value {
+  color: #667eea;
+  font-weight: 600;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: #999;
+}
+
+.empty-state-icon {
+  font-size: 4em;
+  margin-bottom: 20px;
+  opacity: 0.4;
+}
+
+.empty-state h3 {
+  font-size: 1.3em;
+  color: #333;
+  margin-bottom: 10px;
+  font-weight: 500;
+}
+
+.empty-state p {
+  font-size: 1em;
+  margin: 0;
+}
+
+.loading-message {
+  text-align: center;
+  padding: 40px 20px;
+  color: #667eea;
+  font-weight: 500;
+}
+
+.error-message {
+  background-color: #ffebee;
+  color: #c62828;
+  padding: 15px;
+  border-radius: 8px;
+  border-left: 4px solid #ef5350;
+  margin-bottom: 20px;
+  font-weight: 500;
+}
+
+.history-info {
+  background-color: #f5f5f5;
+  padding: 15px;
+  border-radius: 8px;
+  font-size: 0.9em;
+  color: #666;
+  margin-top: 20px;
+}
+
+@media (max-width: 1024px) {
+  .predictions-grid {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .predictions-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .history-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+
+  .history-header h2 {
+    font-size: 1.5em;
+  }
+
+  .prediction-card {
+    padding: 15px;
+  }
+
+  .data-row {
+    flex-direction: column;
+    gap: 5px;
+  }
+}
