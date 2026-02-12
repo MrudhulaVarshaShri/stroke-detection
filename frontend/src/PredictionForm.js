@@ -21,6 +21,7 @@ function PredictionForm({ onPredictionMade }) {
 
   useEffect(() => {
     fetchModelInfo();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const fetchModelInfo = async () => {

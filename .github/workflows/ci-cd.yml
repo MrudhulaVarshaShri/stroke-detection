@@ -60,7 +60,7 @@ jobs:
     - name: Run linter
       run: |
         cd frontend
-        npm run lint || true
+        npm run lint || exit 0
     
     - name: Build
       run: |
