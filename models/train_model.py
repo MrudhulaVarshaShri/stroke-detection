@@ -1,56 +1,77 @@
-import pickle
-import numpy as np
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.model_selection import train_test_split
-from sklearn.metrics import accuracy_score, classification_report
 import pandas as pd
-import os
+import pickle
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
+from xgboost import XGBClassifier
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.metrics import roc_curve, auc
 
-# Create sample training data
-np.random.seed(42)
-n_samples = 1000
+# Load dataset
+df = pd.read_csv("dataset.csv")
 
-# Generate synthetic data for stroke prediction
-data = {
-    'age': np.random.randint(20, 85, n_samples),
-    'hypertension': np.random.randint(0, 2, n_samples),
-    'heart_disease': np.random.randint(0, 2, n_samples),
-    'avg_glucose_level': np.random.uniform(50, 300, n_samples),
-    'bmi': np.random.uniform(15, 40, n_samples),
-    'smoking_status': np.random.randint(0, 3, n_samples),
-    'stroke': np.random.randint(0, 2, n_samples)
-}
+print("Dataset Shape:", df.shape)
 
-df = pd.DataFrame(data)
+# Drop ID column if exists
+if 'id' in df.columns:
+    df = df.drop('id', axis=1)
+
+# Remove missing values
+df = df.dropna()
+
+# Convert categorical columns
+for col in df.select_dtypes(include=["object", "string"]).columns:
+    df[col] = df[col].astype("category").cat.codes
+
 
 # Separate features and target
-X = df[['age', 'hypertension', 'heart_disease', 'avg_glucose_level', 'bmi', 'smoking_status']]
-y = df['stroke']
+X = df.drop("stroke", axis=1)
+y = df["stroke"]
 
-# Split data
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+# Train-test split
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=42
+)
 
-# Train Random Forest model
-model = RandomForestClassifier(n_estimators=100, random_state=42)
+# Calculate imbalance ratio
+scale_weight = len(y_train[y_train == 0]) / len(y_train[y_train == 1])
+
+# Train XGBoost model
+model = XGBClassifier(
+    n_estimators=300,
+    learning_rate=0.05,
+    max_depth=5,
+    scale_pos_weight=scale_weight,
+    eval_metric="logloss",
+    random_state=42
+)
+
 model.fit(X_train, y_train)
 
-# Evaluate
-y_pred = model.predict(X_test)
-accuracy = accuracy_score(y_test, y_pred)
+# Get prediction probabilities
+y_probs = model.predict_proba(X_test)[:, 1]
 
-print(f"Model Accuracy: {accuracy:.4f}")
-print("\nClassification Report:")
-print(classification_report(y_test, y_pred))
+# Adjust threshold to improve recall
+y_pred = (y_probs > 0.25).astype(int)
+
+# Evaluation
+print("\nAccuracy:", accuracy_score(y_test, y_pred))
+print("\nClassification Report:\n", classification_report(y_test, y_pred))
+print("\nConfusion Matrix:\n", confusion_matrix(y_test, y_pred))
+
+
+# --- Confusion Matrix Plot ---
+cm = confusion_matrix(y_test, y_pred)
+
+plt.figure()
+sns.heatmap(cm, annot=True, fmt='d')
+plt.title("Confusion Matrix")
+plt.xlabel("Predicted")
+plt.ylabel("Actual")
+plt.savefig("confusion_matrix.png")
+plt.close()
+
 
 # Save model
-os.makedirs('.', exist_ok=True)
-with open('stroke_model.pkl', 'wb') as f:
-    pickle.dump(model, f)
+pickle.dump(model, open("stroke_model.pkl", "wb"))
 print("\nModel saved as stroke_model.pkl")
-
-# Save feature importance
-feature_names = ['age', 'hypertension', 'heart_disease', 'avg_glucose_level', 'bmi', 'smoking_status']
-importances = model.feature_importances_
-print("\nFeature Importance:")
-for name, importance in zip(feature_names, importances):
-    print(f"{name}: {importance:.4f}")
